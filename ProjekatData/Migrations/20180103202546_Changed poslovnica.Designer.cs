@@ -12,9 +12,10 @@ using System;
 namespace ProjekatData.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180103202546_Changed poslovnica")]
+    partial class Changedposlovnica
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,7 +198,7 @@ namespace ProjekatData.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("VideoKlubAsset");
                 });
 
-            modelBuilder.Entity("ProjekatData.Models.VideoKlubOgranak", b =>
+            modelBuilder.Entity("ProjekatData.Models.VideoKlubPoslovnica", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -220,23 +221,7 @@ namespace ProjekatData.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VideoKlubOgranak");
-                });
-
-            modelBuilder.Entity("ProjekatData.Models.Zaposleni", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Ime")
-                        .IsRequired();
-
-                    b.Property<string>("Sifra")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Zaposleni");
+                    b.ToTable("VideoKlubPoslovnica");
                 });
 
             modelBuilder.Entity("ProjekatData.Models.Film", b =>
@@ -256,7 +241,7 @@ namespace ProjekatData.Migrations
 
             modelBuilder.Entity("ProjekatData.Models.Clan", b =>
                 {
-                    b.HasOne("ProjekatData.Models.VideoKlubOgranak", "ClanOgranka")
+                    b.HasOne("ProjekatData.Models.VideoKlubPoslovnica", "ClanOgranka")
                         .WithMany("Clanovi")
                         .HasForeignKey("ClanOgrankaId");
 
@@ -292,7 +277,7 @@ namespace ProjekatData.Migrations
 
             modelBuilder.Entity("ProjekatData.Models.RadnoVreme", b =>
                 {
-                    b.HasOne("ProjekatData.Models.VideoKlubOgranak", "Ogranak")
+                    b.HasOne("ProjekatData.Models.VideoKlubPoslovnica", "Ogranak")
                         .WithMany()
                         .HasForeignKey("OgranakId");
                 });
@@ -310,7 +295,7 @@ namespace ProjekatData.Migrations
 
             modelBuilder.Entity("ProjekatData.Models.VideoKlubAsset", b =>
                 {
-                    b.HasOne("ProjekatData.Models.VideoKlubOgranak", "Lokacija")
+                    b.HasOne("ProjekatData.Models.VideoKlubPoslovnica", "Lokacija")
                         .WithMany("VideoKlubAssets")
                         .HasForeignKey("LokacijaId");
 

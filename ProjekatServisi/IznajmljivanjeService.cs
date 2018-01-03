@@ -10,12 +10,18 @@ namespace ProjekatServisi
 {
     public class IznajmljivanjeService : IIznajmljivanje
     {
+        #region Fields/Constructor
+
         private DataContext _context;
 
         public IznajmljivanjeService(DataContext context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region Add,GetAll, Get
 
         public void Add(Iznajmljivanje novoIznajmljivanje)
         {
@@ -32,6 +38,10 @@ namespace ProjekatServisi
         {
             return GetAll().FirstOrDefault(iz => iz.Id == id);
         }
+
+        #endregion
+
+        #region GetCurrent (ClanName,Rezervacija,Rezervacije)
 
         public string GetCurrentClanName(int rezervacijaId)
         {
@@ -64,6 +74,10 @@ namespace ProjekatServisi
                 .Where(h => h.VideoKlubAsset.Id == id);
         }
 
+        #endregion
+
+        #region Get (IstorijaIznajljivanja, LatestIznajmljivanje, CurrentIznajmljeno)
+
         public IEnumerable<IstorijaIznajmljivanja> GetIstorijaIznajmljivanja(int id)
         {
             return _context.IstorijaIznajmljivanja
@@ -87,6 +101,7 @@ namespace ProjekatServisi
             {
                 return "Nije iznajmljeno.";
             }
+
             var idKartice = iznajmljeno.ClanskaKarta.Id;
 
             var clan = _context.Clanovi
@@ -94,6 +109,10 @@ namespace ProjekatServisi
                 .FirstOrDefault(c => c.ClanskaKarta.Id == idKartice);
             return clan.Ime + " " + clan.Prezime;
         }
+
+        #endregion
+
+        #region Iznajmljivanje
 
         private Iznajmljivanje GetIznajmljeniById(int id)
         {
@@ -149,12 +168,35 @@ namespace ProjekatServisi
             return now.AddDays(30);
         }
 
-        public bool IsIznajmljeno(int id)
+
+        public void VratiItem(int id)
         {
-            return _context.Iznajmljivanje
-                .Where(i => i.VideoKlubAsset.Id == id)
-                .Any();
+            var now = DateTime.Now;
+
+            RemovePostojecaIznajmljivanja(id);
+
+            RemoveIstorija(id, now);
+
+            var trenutneRezervacije = _context.Rezervacija
+                .Include(h => h.VideoKlubAsset)
+                .Include(h => h.ClanskaKarta)
+                .Where(h => h.VideoKlubAsset.Id == id);
+
+            if (trenutneRezervacije.Any())
+            {
+                IznajmiPrvojRezervaciji(id, trenutneRezervacije);
+                return;
+            }
+
+
+            UpdateAssetStatus(id, "Dostupan");
+
+            _context.SaveChanges();
         }
+
+        #endregion
+
+        #region Lost/Found
 
         public void ObeleziIzgubljeno(int id)
         {
@@ -173,6 +215,10 @@ namespace ProjekatServisi
 
             _context.SaveChanges();
         }
+
+        #endregion
+
+        #region Helpers
 
         private void UpdateAssetStatus(int id, string v)
         {
@@ -207,6 +253,17 @@ namespace ProjekatServisi
             }
         }
 
+        public bool IsIznajmljeno(int id)
+        {
+            return _context.Iznajmljivanje
+                .Where(i => i.VideoKlubAsset.Id == id)
+                .Any();
+        }
+
+        #endregion
+
+        #region Rezervacije
+
         public void Rezervisi(int id, int clanskaKarticaId)
         {
             var now = DateTime.Now;
@@ -234,31 +291,6 @@ namespace ProjekatServisi
             _context.SaveChanges();
         }
 
-        public void VratiItem(int id)
-        {
-            var now = DateTime.Now;
-
-            RemovePostojecaIznajmljivanja(id);
-
-            RemoveIstorija(id, now);
-
-            var trenutneRezervacije = _context.Rezervacija
-                .Include(h => h.VideoKlubAsset)
-                .Include(h => h.ClanskaKarta)
-                .Where(h => h.VideoKlubAsset.Id == id);
-
-            if (trenutneRezervacije.Any())
-            {
-                IznajmiPrvojRezervaciji(id, trenutneRezervacije);
-                return;
-            }
-
-
-
-            UpdateAssetStatus(id, "Dostupan");
-
-            _context.SaveChanges();
-        }
 
         private void IznajmiPrvojRezervaciji(int assetId, IQueryable<Rezervacija> trenutneRezervacije)
         {
@@ -272,5 +304,7 @@ namespace ProjekatServisi
             _context.SaveChanges();
             IznajmiItem(assetId, kartica.Id);
         }
+
+        #endregion
     }
 }

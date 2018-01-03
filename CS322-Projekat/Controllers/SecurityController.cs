@@ -20,10 +20,8 @@ namespace CS322_Projekat.Controllers
         private readonly SignInManager<AppIdentityUser> signInManager;
         private readonly IEmailSender emailSender;
 
-        public SecurityController(
-            UserManager<AppIdentityUser> userManager,
-            SignInManager<AppIdentityUser> signInManager,
-            IEmailSender emailSender)
+        public SecurityController(UserManager<AppIdentityUser> userManager,
+            SignInManager<AppIdentityUser> signInManager, IEmailSender emailSender)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;

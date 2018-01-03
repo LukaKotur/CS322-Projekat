@@ -10,12 +10,18 @@ namespace ProjekatServisi
 {
     public class ClanService : IClan
     {
+        #region Fields/Constructor
+
         private DataContext _context;
 
         public ClanService(DataContext context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region Get, GetAll, Add (Clan)
 
         public Clan Get(int id)
         {
@@ -36,16 +42,14 @@ namespace ProjekatServisi
             _context.SaveChanges();
         }
 
+        #endregion
+
+        #region Plati dug/Add clanska karta
+
         public void AddClanskaKarta(ClanskaKarta karta)
         {
             _context.Add(karta);
             _context.SaveChanges();
-        }
-
-        public VideoKlubOgranak GetPoslovnica(int id)
-        {
-            return _context.VideoKlubOgranak
-                .FirstOrDefault(vo => vo.Id == id);
         }
 
         public void PlatiDug(int karticaId, decimal dug)
@@ -61,6 +65,17 @@ namespace ProjekatServisi
 
             _context.SaveChanges();
         }
+
+        #endregion
+
+        #region Get (Istorija, Rezervacije, Poslovnice, Iznajmljivanje)
+
+        public VideoKlubOgranak GetPoslovnica(int id)
+        {
+            return _context.VideoKlubOgranak
+                .FirstOrDefault(vo => vo.Id == id);
+        }
+
 
         public IEnumerable<IstorijaIznajmljivanja> GetIstorijaIznajmljivanja(int clanId)
         {
@@ -96,5 +111,7 @@ namespace ProjekatServisi
                 .Include(rez => rez.VideoKlubAsset)
                 .Where(rez => rez.ClanskaKarta.Id == karticaId);
         }
+
+        #endregion
     }
 }

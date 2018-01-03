@@ -12,12 +12,18 @@ namespace CS322_Projekat.Controllers
     [Authorize]
     public class ClanoviInfoController : Controller
     {
+        #region Fields/Constructor
+
         private IClan _clan;
 
         public ClanoviInfoController(IClan clan)
         {
             _clan = clan;
         }
+
+        #endregion
+
+        #region Index/Detail
 
         public IActionResult Index()
         {
@@ -63,6 +69,10 @@ namespace CS322_Projekat.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Uplati dug
+
         public IActionResult PlatiDug(int id)
         {
             return View();
@@ -81,6 +91,10 @@ namespace CS322_Projekat.Controllers
         {
             return View();
         }
+
+        #endregion
+
+        #region Dodaj novog clana
 
         [HttpPost]
         public IActionResult Dodaj(string ime, string prezime, string adresa, string telefon, string datumRodjenja,
@@ -107,5 +121,7 @@ namespace CS322_Projekat.Controllers
 
             return RedirectToAction("Index");
         }
+
+        #endregion
     }
 }

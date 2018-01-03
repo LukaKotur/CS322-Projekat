@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using CS322_Projekat.Models.IznajmljivanjeModels;
 using CS322_Projekat.Models.Katalog;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +10,8 @@ namespace CS322_Projekat.Controllers
     [Authorize]
     public class KatalogController : Controller
     {
+        #region Fields/Constructor
+
         private IVideoKlubAsset _assets;
         private IIznajmljivanje _iznajmljivanje;
 
@@ -23,6 +21,9 @@ namespace CS322_Projekat.Controllers
             _iznajmljivanje = iznajmljivanje;
         }
 
+        #endregion
+
+        #region Index/Detail
 
         public IActionResult Index()
         {
@@ -79,6 +80,10 @@ namespace CS322_Projekat.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Iznajmi/Vrati
+
         public IActionResult Iznajmi(int id)
         {
             var asset = _assets.GetById(id);
@@ -95,11 +100,22 @@ namespace CS322_Projekat.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult PotvrdiIznajmljivanje(int assetId, int clanskaKartaId)
+        {
+            _iznajmljivanje.IznajmiItem(assetId, clanskaKartaId);
+            return RedirectToAction("Detail", new {id = assetId});
+        }
+
         public IActionResult Vrati(int id)
         {
             _iznajmljivanje.VratiItem(id);
             return RedirectToAction("Detail", new {id = id});
         }
+
+        #endregion
+
+        #region Rezervisi
 
         public IActionResult Rezervisi(int id)
         {
@@ -119,17 +135,12 @@ namespace CS322_Projekat.Controllers
         }
 
         [HttpPost]
-        public IActionResult PotvrdiIznajmljivanje(int assetId, int clanskaKartaId)
-        {
-            _iznajmljivanje.IznajmiItem(assetId, clanskaKartaId);
-            return RedirectToAction("Detail", new {id = assetId});
-        }
-
-        [HttpPost]
         public IActionResult PotvrdiRezervaciju(int assetId, int clanskaKartaId)
         {
             _iznajmljivanje.Rezervisi(assetId, clanskaKartaId);
             return RedirectToAction("Detail", new {id = assetId});
         }
+
+        #endregion
     }
 }

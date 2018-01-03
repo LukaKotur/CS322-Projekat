@@ -9,12 +9,18 @@ namespace ProjekatServisi
 {
     public class VideoKlubAssetService : IVideoKlubAsset
     {
+        #region Fields / Constructor
+
         private DataContext _context;
 
         public VideoKlubAssetService(DataContext context)
         {
             _context = context;
         }
+
+        #endregion
+
+        #region Getters
 
         public IEnumerable<VideoKlubAsset> GetAll()
         {
@@ -29,13 +35,7 @@ namespace ProjekatServisi
                 .FirstOrDefault(asset => asset.Id == id);
         }
 
-        public void Add(VideoKlubAsset novi)
-        {
-            _context.Add(novi);
-            _context.SaveChanges();
-        }
 
-  
         public string GetGlavniGlumci(int id)
         {
             if (_context.Film.Any(film => film.Id == id))
@@ -55,7 +55,6 @@ namespace ProjekatServisi
 
         public string GetProducent(int id)
         {
-
             if (_context.Film.Any(film => film.Id == id))
             {
                 return _context.Film.FirstOrDefault(film => film.Id == id).Producent;
@@ -70,5 +69,17 @@ namespace ProjekatServisi
         {
             return GetById(id).Lokacija;
         }
+
+        #endregion
+
+        #region Add
+
+        public void Add(VideoKlubAsset novi)
+        {
+            _context.Add(novi);
+            _context.SaveChanges();
+        }
+
+        #endregion
     }
 }

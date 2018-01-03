@@ -2,21 +2,22 @@
 
 
 <div class="container">
-    <div class="header clearfix detailHeading">Rezervisi</div>
+    <h1 class="header clearfix detailHeading">Rezervisi</h1>
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
-                <p id="itemNaziv">@Model.Naziv</p>
-                <img class="detailImg" src="@Model.ImgUrl" />
+                <h2 id="itemNaziv">@Model.Naziv</h2>
+                <img class="detailImg" src="@Model.ImgUrl" style="max-height: 350px" />
             </div>
             <div class="col-md-9">
+
                 <p>Trenutno ima @Model.RezervacijeCount rezervacija.</p>
                 @using (Html.BeginForm("PotvrdiRezervaciju", "Katalog", FormMethod.Post))
                 {
                     @Html.HiddenFor(a => a.AssetId)
                     <div>
                         Unesite ID clanse kartice.
-                        @Html.TextBoxFor(a => a.ClanskaKartaId, new { @class = "form-control col-md-4 ml-auto mr-auto" })
+                        @Html.TextBoxFor(a => a.ClanskaKartaId, new {@class = "form-control col-md-4  mr-auto mb-3 mt-3"})
                     </div>
                     <div>
                         <button type="submit" class="btn btn-success btn-lg">Potvrdi rezervaciju!</button>
