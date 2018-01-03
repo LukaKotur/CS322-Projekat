@@ -1,0 +1,33 @@
+﻿@model CS322_Projekat.Models.IznajmljivanjeModels.IznajmljivanjeModel
+
+
+<div class="container">
+    <h1 class="header clearfix detailHeading">Iznajmi</h1>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                
+                @using (Html.BeginForm("PotvrdiIznajmljivanje", "Katalog", FormMethod.Post))
+                {
+
+                    @Html.HiddenFor(a => a.AssetId)
+                    <div class="form-control">
+                        <h3 id="itemNaziv">@Model.Naziv</h3>
+                        <img class="detailImg img-fluid" src="@Model.ImgUrl" style="max-height: 350px"/>
+
+                        <br/>
+                        <br/>
+                        Unesite ID clanske kartice
+                        <br/>
+                        <br/>
+                        @Html.TextBoxFor(a => a.ClanskaKartaId, new {@class="form-control col-md-4 ml-auto mr-auto"})
+                        <div>
+                            <button type="submit" class="btn btn-success btn-lg" style="margin-top: 20px; cursor: pointer;">Potvrdi iznajmljivanje!</button>
+                        </div>
+                        <br />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿@model CS322_Projekat.Models.Clanovi.ClanoviDetailModel
+@{
+    ViewBag.Title = @Model.Prezime + ", " + @Model.Ime;
+}
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 class="text-muted">Informacije o clanu</h2>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <h2>@Model.Ime @Model.Prezime</h2>
+                    <div class="patronContact">
+                        <div>ID clanske karte: @Model.ClanskaKarticaId</div>
+                        <div>Adresa: @Model.Adresa</div>
+                        <div>Telefon: @Model.Telefon</div>
+                        <div>Clan od: @Model.ClanOd.ToString("dd.MM.yyyy")</div>
+                        <div>Clan poslovnice: @Model.ClanPoslovnice</div>
+                        @if (@Model.Dug > 0)
+                        {
+                            <div class="text-danger">Trenutan dug: @Model.Dug RSD</div>
+                            <a class="btn btn-lg btn-success" role="button" asp-controller="ClanoviInfo" asp-action="PlatiDug" asp-route-id="@Model.ClanskaKarticaId">Plati dug!</a>
+                        }
+                        else
+                        {
+                            <div class="text-success">Nema dugovanja.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Trenutno iznajmljene stvari</h4>
+                @if (@Model.IznajmljeneStvari.Any())
+                {
+                    <div>
+                        <ul>
+                            @foreach (var iznajmljeno in @Model.IznajmljeneStvari)
+                            {
+                                <li>
+                                    @iznajmljeno.VideoKlubAsset.Naziv - ( ID: @iznajmljeno.VideoKlubAsset.Id )
+                                    <ul>
+                                        <li>
+                                            Od: @iznajmljeno.DatumPocetka
+                                        </li>
+                                        <li>
+                                            Do: @iznajmljeno.DatumKraja
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div>Nema iznajmljenih stvari trenutno.</div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <h4>Rezervisane stvari</h4>
+                @if (@Model.Rezervacije.Any())
+                {
+                    <div id="patronHolds">
+                        <ul>
+                            @foreach (var rezervacija in @Model.Rezervacije)
+                            {
+                                <li>@rezervacija.VideoKlubAsset.Naziv - Rezervisano @rezervacija.StavljenaRezervacija.ToString("dd-MM-yy - HH:mm")</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div>Nema rezervisanih stvari.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

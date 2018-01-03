@@ -1,0 +1,119 @@
+﻿@model CS322_Projekat.Models.Katalog.AssetDetailModel
+<div class="container">
+    <div class="page-header clearfix detailHeading">
+        <h2 class="text-muted">Informacije o Filmu</h2>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                <img src="@Model.ImgUrl" class="img-fluid" id="imageDetail"/>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h2 id="itemNaziv">
+                    <strong>@Model.Naziv</strong>
+                </h2>
+                <p id="itemProducent">Producent: @Model.Producent</p>
+                <p id="itemStatus">Status: @Model.Status</p>
+                <p id="itemLokacija">Trenutna dostupno: @Model.TrenutnaLokacija</p>
+            </div>
+
+            <div class="">
+                <div>
+                    <table class="table table-bordered table-responsive" >
+                        <tr>
+                            <td class="itemGlavniGlumci">Glavni glumci: </td>
+                            <td class="itemGlavniGlumciVal">@Model.GlavniGlumci</td>
+                        </tr>
+                        <tr>
+                            <td class="itemDatum">Datum izlaska: </td>
+                            <td class="itemDatumVal">@Model.DatumIzlaska.ToString("dd.MM.yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td class="itemCena">Cena: </td>
+                            <td class="itemCenaVal">@Model.Cena RSD</td>
+                        </tr>
+                    </table>
+                    @if (Model.Status == "Iznajmljen")
+                    {
+                        <p id="itemClan">Iznajmio: @Model.ImeClana</p>
+                        <p>
+                            <a class="btn btn-lg btn-success" role="button" asp-controller="Katalog" asp-action="Vrati" asp-route-id="@Model.AssetId">Vrati film!</a>
+                        </p>
+                        <p>
+                            <a class="btn btn-lg btn-warning" role="button" asp-controller="Katalog" asp-action="Rezervisi" asp-route-id="@Model.AssetId">Rezervisi film!</a>
+                        </p>
+                    }
+
+                    @if (Model.Status == "Dostupan")
+                    {
+                        <p>
+                            <a class="btn btn-lg btn-info" role="button" asp-controller="Katalog" asp-action="Iznajmi" asp-route-id="@Model.AssetId">Iznajmi!</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Istorija iznajmljivanja</h3>
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Datum iznajmljivanja</th>
+                    <th>Datum Vracanja</th>
+                    <th>ID clanske kartice</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var iznajmljeni in @Model.IstorijaIznajmljivanja)
+                {
+                    <tr>
+                        <td>
+                            @iznajmljeni.DatumIznajmljivanja
+                        </td>
+                        <td>
+                            @iznajmljeni.DatumVracanja
+                        </td>
+                        <td>
+                            @iznajmljeni.ClanskaKarta.Id
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <h3>Trenutne rezervacije</h3>
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Datum rezervacije</th>
+                    <th>Ime clana koji je rezervisao</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var rezervacija in @Model.TrenutneRezervacije)
+                {
+                    <tr>
+                        <td>
+                            @rezervacija.Rezervisano
+                        </td>
+                        <td>
+                            @rezervacija.ImeClana
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

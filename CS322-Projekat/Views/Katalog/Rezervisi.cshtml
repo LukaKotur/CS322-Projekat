@@ -1,0 +1,28 @@
+﻿@model CS322_Projekat.Models.IznajmljivanjeModels.IznajmljivanjeModel
+
+
+<div class="container">
+    <div class="header clearfix detailHeading">Rezervisi</div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <p id="itemNaziv">@Model.Naziv</p>
+                <img class="detailImg" src="@Model.ImgUrl" />
+            </div>
+            <div class="col-md-9">
+                <p>Trenutno ima @Model.RezervacijeCount rezervacija.</p>
+                @using (Html.BeginForm("PotvrdiRezervaciju", "Katalog", FormMethod.Post))
+                {
+                    @Html.HiddenFor(a => a.AssetId)
+                    <div>
+                        Unesite ID clanse kartice.
+                        @Html.TextBoxFor(a => a.ClanskaKartaId, new { @class = "form-control col-md-4 ml-auto mr-auto" })
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success btn-lg">Potvrdi rezervaciju!</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

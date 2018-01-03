@@ -1,0 +1,52 @@
+﻿@model CS322_Projekat.Models.Clanovi.ClanoviDetailModel
+
+<div class="col-md-6 ml-auto mr-auto">
+    <h2>Dodaj novog clana</h2>
+    @using (Html.BeginForm("Dodaj", "ClanoviInfo", FormMethod.Post, new {@class = ""}))
+    {
+        <div class="form-group">
+            Unesite ime
+            @Html.TextBoxFor(a => a.Ime, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            Unesite prezime
+            @Html.TextBoxFor(a => a.Prezime, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            Unesite Adresu
+            @Html.TextBoxFor(a => a.Adresa, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            Unesite telefon
+            @Html.TextBoxFor(a => a.Telefon, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            Unesite datum rodjenja
+            <input type="text" id="datumRodjenja" name="datumRodjenja" class="datepicker form-control"/>
+        </div>
+        <div class="form-group">
+            Unesite ID poslovnice
+            @Html.TextBoxFor(a => a.ClanPoslovniceId, new {@class = "form-control"})
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-lg" style="cursor: pointer">Dodaj clana!</button>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".datepicker").datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayBtn: 'linked',
+                maxDate: "+0d",
+                changeYear: true,
+                yearRange: "1940:2017",
+                defaultDate: "01/01/1940"
+            });
+        });
+    </script>
+}

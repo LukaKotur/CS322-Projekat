@@ -1,0 +1,48 @@
+﻿@model CS322_Projekat.Models.Clanovi.ClanIndexModel
+
+@{
+    ViewBag.Title = "Lista Clanova";
+    ViewBag.Current = "Informacije";
+}
+
+<h3>@ViewBag.Title</h3>
+<div>
+    <table class="table table-condensed table-hover" id="clanoviTable">
+        <thead>
+        <tr>
+            <th>Vise informacija</th>
+            <th>Prezime</th>
+            <th>Ime</th>
+            <th>Id clanske karte</th>
+            <th>Dug</th>
+            <th>Clan poslovnice</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var clan in Model.Clanovi)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="ClanoviInfo" asp-action="Detail" asp-route-id="@clan.Id">Vise informacija</a>
+                </td>
+                <td>@clan.Prezime</td>
+                <td>@clan.Ime</td>
+                <td>@clan.ClanskaKarticaId</td>
+                <td>@clan.Dug</td>
+                <td>@clan.ClanPoslovnice</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-controller="ClanoviInfo" asp-action="DodajClana" class="btn btn-success btn-group-lg"><i class="fa fa-plus-circle"></i> Dodaj clana</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#clanoviTable').DataTable();
+        });
+    </script>
+}

@@ -1,0 +1,16 @@
+﻿@model CS322_Projekat.Models.Clanovi.ClanoviDetailModel
+
+<h2>PlatiDug</h2>
+<div class="jumbotron">
+    @using (Html.BeginForm("UplatiDug", "ClanoviInfo", FormMethod.Post,new {@class="text-center "}))
+    {
+        @Html.HiddenFor(a => a.Id)
+        <div>
+            <label class="mb-3">Unesite kolicinu novca koja je uplacena</label>
+            @Html.TextBoxFor(a => a.Dug, new {@class = "form-control col-md-4 ml-auto mr-auto mb-3"})
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success btn-lg">Izvrsi uplatu!</button>
+        </div>
+    }
+</div>
