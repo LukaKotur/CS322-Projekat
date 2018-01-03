@@ -27,7 +27,6 @@ namespace ProjekatData
         public DbSet<VideoKlubAsset> VideoKlubAsset { get; set; }
         public DbSet<VideoKlubOgranak> VideoKlubOgranak { get; set; }
         public DbSet<ClanskaKarta> ClanskaKarta { get; set; }
-        public DbSet<Zaposleni> Zaposleni { get; set; }
 
         // command to execute update to db: update-database
 

@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CS322_Projekat.AppIdentity;
+using CS322_Projekat.Services.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,21 +31,49 @@ namespace CS322_Projekat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            #region Identity/Security
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Konekcija")));
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Security/Login";
+                options.LogoutPath = "/Security/Logout";
+                options.AccessDeniedPath = "/Security/AccessDenied";
+                options.SlidingExpiration = true;
+                options.Cookie = new CookieBuilder
                 {
-                    options.LoginPath = "/Home/ErrorLogin";
-                });
+                    HttpOnly = true,
+                    Name = ".Security.Cookie",
+                    Path = "/",
+                    SameSite = SameSiteMode.Lax,
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest
+                };
+            });
+
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            #endregion
+
+            services.AddMvc();
+
+            #region Data
+
             services.AddSingleton(Configuration);
             services.AddScoped<IVideoKlubAsset, VideoKlubAssetService>();
             services.AddScoped<IIznajmljivanje, IznajmljivanjeService>();
             services.AddScoped<IClan, ClanService>();
-            services.AddScoped<IZaposleni, ZaposleniService>();
 
 
             services.AddDbContext<DataContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString("Konekcija")));
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

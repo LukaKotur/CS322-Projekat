@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using CS322_Projekat.Models.Clanovi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjekatData;
 using ProjekatData.Models;
 
 namespace CS322_Projekat.Controllers
 {
+    [Authorize]
     public class ClanoviInfoController : Controller
     {
         private IClan _clan;
@@ -81,11 +83,12 @@ namespace CS322_Projekat.Controllers
         }
 
         [HttpPost]
-        public IActionResult Dodaj(string ime, string prezime, string adresa, string telefon, string datumRodjenja, int clanPoslovniceId)
+        public IActionResult Dodaj(string ime, string prezime, string adresa, string telefon, string datumRodjenja,
+            int clanPoslovniceId)
         {
-            DateTime datumRodjenjaClana = DateTime.ParseExact(datumRodjenja, "MM/dd/yyyy",null);
+            DateTime datumRodjenjaClana = DateTime.ParseExact(datumRodjenja, "MM/dd/yyyy", null);
 
-            
+
             Clan noviClan = new Clan();
             noviClan.Ime = ime;
             noviClan.Prezime = prezime;

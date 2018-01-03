@@ -3,50 +3,18 @@
     ViewBag.Current = "Home";
 }
 
-<h2>Dobrodosli na stranicu video kluba</h2>
+<div class="jumbotron">
+    <h2>Dobrodosli na stranicu video kluba</h2>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>Dobrodosli @User.Identity.Name</p>
+        <a asp-controller="Security" asp-action="Logout" class="btn btn-warning">Logout</a>
+    }
+    else
+    {
+        <p>Ulogujte se kako biste mogli da pristupite aplikaciji</p>
 
+        <a asp-controller="Security" asp-action="Login" class="btn btn-success">Login</a>
+    }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <div>
-        <p>Ulogovan zaposleni: @User.Identity.Name</p>
-
-        <form asp-action="Logout" method="post">
-            <button class="btn btn-danger" style="cursor: pointer;">Izloguj se</button>
-        </form>
-    </div>
-}
-else
-{
-    <div class="jumbotron">
-        <div>
-            <h3 class="text-center">Unesite vas login info kako biste mogli da pristupite aplikaciji</h3>
-            <div class="col-md-4 ml-auto mr-auto">
-                <form method="post" asp-action="Login" class="text-center ">
-                    <div class="form-group " style="margin-bottom: 5px">
-                        <label for="id">Id:</label>
-                        <br/>
-                        <input type="number" class="form-control" name="id"/>
-                    </div>
-
-                    <div class="form-group " style="margin-bottom: 5px">
-                        <label for="ime">Ime:</label>
-                        <br/>
-                        <input type="text" class="form-control" name="ime"/>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 5px">
-                        <label for="password">Sifra:</label>
-                        <br/>
-                        <input type="password" class="form-control" name="password"/>
-                    </div>
-
-                    <div class="col-md-12">
-                        <button class="btn btn-success" type="submit" style="cursor: pointer; margin-top: 5px;">Uloguj se</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-}
+</div>

@@ -1,0 +1,14 @@
+﻿@model CS322_Projekat.Models.Security.LoginViewModel
+
+<h3>Login</h3>
+<div class="jumbotron">
+    <form asp-controller="Security" asp-action="Login" method="post" class="col-md-4">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <label>Username:</label>
+        <input type="text" asp-for="Username" placeholder="Username" class="form-control"/>
+        <label>Password:</label>
+        <input type="password" asp-for="Password" placeholder="Password" class="form-control"/>
+        <br/>
+        <input type="submit" value="Login" class="btn btn-success"/>
+    </form>
+</div>

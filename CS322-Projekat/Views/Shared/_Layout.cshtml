@@ -35,7 +35,10 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Ulogovan zaposleni: @User.Identity.Name</a>
+                        <a href="#" class="nav-link">Trenutno ulogovan: @User.Identity.Name</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Security" asp-action="Logout" class="nav-link">Logout</a>
                     </li>
                 }
 

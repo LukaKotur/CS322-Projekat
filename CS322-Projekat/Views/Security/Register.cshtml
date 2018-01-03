@@ -1,0 +1,15 @@
+﻿@model CS322_Projekat.Models.Security.RegisterViewModel
+
+<h3>Register</h3>
+<div class="jumbotron">
+    <form asp-controller="Security" asp-action="Register" method="post">
+        <div asp-validation-summary="All"></div>
+
+        <input type="text" asp-for="UserName" placeholder="Username" class="form-control"/><br/>
+        <input type="password" asp-for="Password" placeholder="Password" class="form-control"/><br/>
+        <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" class="form-control"/><br/>
+        <input type="text" asp-for="Email" placeholder="Email" class="form-control"/><br/>
+        <input type="text" asp-for="Age" placeholder="Age" class="form-control"/><br/>
+        <input type="submit" value="Register" class="btn btn-success"/>
+    </form>
+</div>
