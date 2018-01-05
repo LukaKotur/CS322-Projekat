@@ -16,6 +16,8 @@
             <th>Id clanske karte</th>
             <th>Dug</th>
             <th>Clan poslovnice</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +32,20 @@
                 <td>@clan.ClanskaKarticaId</td>
                 <td>@clan.Dug</td>
                 <td>@clan.ClanPoslovnice</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="ClanoviInfo" asp-route-id="@clan.Id" class="btn btn-info">Izmeni</a>
+                </td>
+                @if (@clan.Dug == 0)
+                {
+                    <td>
+                        <a asp-action="Remove" asp-controller="ClanoviInfo" asp-route-id="@clan.Id" class="btn btn-danger">Obrisi</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
             </tr>
         }
         </tbody>

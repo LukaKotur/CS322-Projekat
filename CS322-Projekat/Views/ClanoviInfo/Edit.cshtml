@@ -2,34 +2,35 @@
 
 <div class="col-md-6 ml-auto mr-auto">
     <h2>Dodaj novog clana</h2>
-    @using (Html.BeginForm("Dodaj", "ClanoviInfo", FormMethod.Post, new {@class = ""}))
+    @using (Html.BeginForm("EditPost", "ClanoviInfo", FormMethod.Post, new {@class = ""}))
     {
+        @Html.HiddenFor(a => a.Id)
         <div class="form-group">
             Unesite ime
-            @Html.TextBoxFor(a => a.Ime, new {@class = "form-control"})
+            @Html.TextBoxFor(a => a.Ime, new {@class = "form-control", value = Model.Ime})
         </div>
         <div class="form-group">
             Unesite prezime
-            @Html.TextBoxFor(a => a.Prezime, new {@class = "form-control"})
+            @Html.TextBoxFor(a => a.Prezime, new {@class = "form-control", value = Model.Prezime})
         </div>
         <div class="form-group">
             Unesite Adresu
-            @Html.TextBoxFor(a => a.Adresa, new {@class = "form-control"})
+            @Html.TextBoxFor(a => a.Adresa, new {@class = "form-control", value = Model.Adresa})
         </div>
         <div class="form-group">
             Unesite telefon
-            @Html.TextBoxFor(a => a.Telefon, new {@class = "form-control"})
+            @Html.TextBoxFor(a => a.Telefon, new {@class = "form-control", value = Model.Telefon})
         </div>
         <div class="form-group">
             Unesite datum rodjenja
-            <input type="text" id="datumRodjenja" name="datumRodjenja" class="datepicker form-control"/>
+            <input type="text" id="datumRodjenja" name="datumRodjenja" class="datepicker form-control" value="@Model.DatumRodjenja"/>
         </div>
         <div class="form-group">
             <label>Poslovnica:</label>
             <select asp-for="LokacijaId" asp-items="@Model.SveLokacije"></select>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg" style="cursor: pointer">Dodaj clana!</button>
+            <button type="submit" class="btn btn-success btn-lg" style="cursor: pointer">Izmeni podatke clana!</button>
         </div>
     }
 </div>
@@ -39,7 +40,7 @@
     <script>
         $(document).ready(function() {
             $(".datepicker").datepicker({
-                format: 'dd-mm-yyyy',
+                dateFormat: 'dd/mm/yy',
                 autoclose: true,
                 todayBtn: 'linked',
                 maxDate: "+0d",

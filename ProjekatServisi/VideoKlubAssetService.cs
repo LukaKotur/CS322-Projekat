@@ -72,11 +72,25 @@ namespace ProjekatServisi
 
         #endregion
 
-        #region Add
+        #region Add/Remove/Edit
 
         public void Add(VideoKlubAsset novi)
         {
             _context.Add(novi);
+            _context.SaveChanges();
+        }
+
+        public void Remove(int id)
+        {
+            var videoAsset = GetById(id);
+            _context.Remove(videoAsset);
+            _context.SaveChanges();
+        }
+
+        public void Edit(int id)
+        {
+            var asset = GetById(id);
+            _context.Update(asset);
             _context.SaveChanges();
         }
 

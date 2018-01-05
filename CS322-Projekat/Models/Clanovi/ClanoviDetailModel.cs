@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjekatData.Models;
 
 namespace CS322_Projekat.Models.Clanovi
@@ -22,5 +23,8 @@ namespace CS322_Projekat.Models.Clanovi
         public IEnumerable<Iznajmljivanje> IznajmljeneStvari { get; set; }
         public IEnumerable<IstorijaIznajmljivanja> IstorijaIznajmljivanja { get; set; }
         public IEnumerable<Rezervacija> Rezervacije { get; set; }
+
+        public int LokacijaId { get; set; }
+        public List<SelectListItem> SveLokacije { get; set; }
     }
 }

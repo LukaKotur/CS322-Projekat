@@ -25,19 +25,21 @@
 
             <div class="">
                 <div>
-                    <table class="table table-bordered table-responsive" >
-                        <tr>
-                            <td class="itemGlavniGlumci">Glavni glumci: </td>
-                            <td class="itemGlavniGlumciVal">@Model.GlavniGlumci</td>
-                        </tr>
-                        <tr>
-                            <td class="itemDatum">Datum izlaska: </td>
-                            <td class="itemDatumVal">@Model.DatumIzlaska.ToString("dd.MM.yyyy")</td>
-                        </tr>
-                        <tr>
-                            <td class="itemCena">Cena: </td>
-                            <td class="itemCenaVal">@Model.Cena RSD</td>
-                        </tr>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="itemGlavniGlumci">Glavni glumci: </td>
+                                <td class="itemGlavniGlumciVal">@Model.GlavniGlumci</td>
+                            </tr>
+                            <tr>
+                                <td class="itemDatum">Datum izlaska: </td>
+                                <td class="itemDatumVal">@Model.DatumIzlaska.ToString("dd.MM.yyyy")</td>
+                            </tr>
+                            <tr>
+                                <td class="itemCena">Cena: </td>
+                                <td class="itemCenaVal">@Model.Cena RSD</td>
+                            </tr>
+                        </tbody>
                     </table>
                     @if (Model.Status == "Iznajmljen")
                     {

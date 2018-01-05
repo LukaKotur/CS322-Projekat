@@ -4,6 +4,7 @@ using System.Linq;
 using CS322_Projekat.Models.Clanovi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjekatData;
 using ProjekatData.Models;
 
@@ -15,10 +16,12 @@ namespace CS322_Projekat.Controllers
         #region Fields/Constructor
 
         private IClan _clan;
+        private DataContext _context;
 
-        public ClanoviInfoController(IClan clan)
+        public ClanoviInfoController(IClan clan, DataContext context)
         {
             _clan = clan;
+            _context = context;
         }
 
         #endregion
@@ -29,7 +32,8 @@ namespace CS322_Projekat.Controllers
         {
             var sviClanovi = _clan.GetAll();
 
-            var clanoviModels = sviClanovi.Select(c => new ClanoviDetailModel
+            var clanoviModels = sviClanovi
+                .Select(c => new ClanoviDetailModel
             {
                 Id = c.Id,
                 Ime = c.Ime,
@@ -87,18 +91,27 @@ namespace CS322_Projekat.Controllers
             return RedirectToAction("Detail", new {id = id});
         }
 
-        public IActionResult DodajClana()
-        {
-            return View();
-        }
-
         #endregion
 
         #region Dodaj novog clana
 
+        public IActionResult DodajClana()
+        {
+            ClanoviDetailModel model = new ClanoviDetailModel
+            {
+                SveLokacije = _context.VideoKlubOgranak.Select(a => new SelectListItem()
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Naziv
+                }).ToList(),
+            };
+            return View(model);
+        }
+
+
         [HttpPost]
         public IActionResult Dodaj(string ime, string prezime, string adresa, string telefon, string datumRodjenja,
-            int clanPoslovniceId)
+            int lokacijaId)
         {
             DateTime datumRodjenjaClana = DateTime.ParseExact(datumRodjenja, "MM/dd/yyyy", null);
 
@@ -109,7 +122,7 @@ namespace CS322_Projekat.Controllers
             noviClan.Adresa = adresa;
             noviClan.Telefon = telefon;
             noviClan.DatumRodjenja = datumRodjenjaClana;
-            noviClan.ClanOgranka = _clan.GetPoslovnica(clanPoslovniceId);
+            noviClan.ClanOgranka = _clan.GetPoslovnica(lokacijaId);
             ClanskaKarta novaKarta = new ClanskaKarta();
             novaKarta.Dug = 0;
             novaKarta.VremePravljenja = DateTime.Now;
@@ -120,6 +133,55 @@ namespace CS322_Projekat.Controllers
             _clan.Add(noviClan);
 
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Edit/Remove
+
+        public IActionResult Edit(int id)
+        {
+            var clan = _clan.Get(id);
+            ClanoviDetailModel model = new ClanoviDetailModel
+            {
+                Id = clan.Id,
+                Ime = clan.Ime,
+                Prezime = clan.Prezime,
+                Adresa = clan.Adresa,
+                Telefon = clan.Telefon,
+                DatumRodjenja = clan.DatumRodjenja.ToString("d"),
+                LokacijaId = clan.ClanOgranka.Id,
+                SveLokacije = _context.VideoKlubOgranak.Select(a => new SelectListItem()
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Naziv
+                }).ToList(),
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditPost(int id, string ime, string prezime, string adresa, string telefon,
+            string datumRodjenja,
+            int lokacijaId)
+        {
+            Clan clan = _clan.Get(id);
+
+            clan.Ime = ime;
+            clan.Prezime = prezime;
+            clan.Adresa = adresa;
+            clan.Telefon = telefon;
+            clan.DatumRodjenja = DateTime.ParseExact(datumRodjenja.Substring(0, 10), "dd/MM/yyyy", null);
+            clan.ClanOgranka = _clan.GetPoslovnica(lokacijaId);
+
+            _clan.Edit(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int id)
+        {
+            _clan.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion

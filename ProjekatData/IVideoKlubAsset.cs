@@ -15,6 +15,9 @@ namespace ProjekatData
         string GetNaziv(int id);
         string GetProducent(int id);
 
+        void Remove(int id);
+        void Edit(int id);
+
         VideoKlubOgranak GetCurrentOgranak(int id);
     }
 }

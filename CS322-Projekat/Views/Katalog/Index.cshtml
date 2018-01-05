@@ -1,18 +1,21 @@
 ﻿@model CS322_Projekat.Models.Katalog.AssetIndexModel
-    
+
 @{
     ViewBag.Current = "Katalog";
 }
 <div id="assets">
     <h2>Katalog</h2>
     <div id="assetsTable">
-        <table class="table table-condensed table-hover" id="katalogTable">
+        <table class="table table-responsive table-hover" id="katalogTable">
             <thead>
             <tr>
                 <th>Slika</th>
                 <th>Naziv</th>
                 <th>Producent</th>
                 <th>Glavni glumci</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +30,39 @@
                     <td>@asset.Naziv</td>
                     <td>@asset.Producent</td>
                     <td>@asset.GlavniGlumci</td>
+                    @if (@asset.Status == "Iznajmljen")
+                    {
+                        <td class="text-danger">
+                            @asset.Status
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-success">
+                            @asset.Status
+                        </td>
+                    }
+                    @if (@asset.Status == "Dostupan")
+                    {
+                        <td>
+                            <a asp-controller="Katalog" asp-action="Edit" asp-route-id="@asset.Id" class="btn btn-info">Izmeni</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (@asset.Status == "Dostupan")
+                    {
+                        <td>
+                            <a asp-controller="Katalog" asp-action="Remove" asp-route-id="@asset.Id" class="btn btn-danger">Obrisi</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
                 </tr>
             }
             </tbody>
@@ -34,11 +70,18 @@
         </table>
     </div>
 </div>
+
+<div>
+    <a asp-action="Add" asp-controller="Katalog" class="btn btn-success btn-lg">Dodaj novi film</a>
+</div>
+
 @section Scripts
 {
     <script>
         $(document).ready(function() {
-            $('#katalogTable').DataTable();
+            $('#katalogTable').DataTable({
+                "order": [[1, "asc"]]
+            });
         });
     </script>
 

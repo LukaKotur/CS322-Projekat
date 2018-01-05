@@ -11,7 +11,7 @@ namespace CS322_Projekat.Models.Katalog
         public string ImgUrl { get; set; }
         public string Naziv { get; set; }
         public string GlavniGlumci { get; set; }
-        public int BrojKopija { get; set; }
+        public string Status { get; set; }
         public string Producent { get; set; }
     }
 }

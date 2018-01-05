@@ -42,6 +42,20 @@ namespace ProjekatServisi
             _context.SaveChanges();
         }
 
+        public void Remove(int id)
+        {
+            var clan = Get(id);
+            _context.Remove(clan);
+            _context.SaveChanges();
+        }
+
+        public void Edit(int id)
+        {
+            var clan = Get(id);
+            _context.Update(clan);
+            _context.SaveChanges();
+        }
+
         #endregion
 
         #region Plati dug/Add clanska karta
@@ -113,5 +127,7 @@ namespace ProjekatServisi
         }
 
         #endregion
+
+
     }
 }

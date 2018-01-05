@@ -10,6 +10,8 @@ namespace ProjekatData
         Clan Get(int id);
         IEnumerable<Clan> GetAll();
         void Add(Clan noviClan);
+        void Edit(int id);
+        void Remove(int id);
 
         void PlatiDug(int id, decimal dug);
 
