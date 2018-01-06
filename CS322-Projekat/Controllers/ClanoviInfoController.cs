@@ -67,7 +67,8 @@ namespace CS322_Projekat.Controllers
                 ClanskaKarticaId = clan.ClanskaKarta.Id,
                 IznajmljeneStvari = _clan.GetIznajmljivanja(id).ToList() ?? new List<Iznajmljivanje>(),
                 IstorijaIznajmljivanja = _clan.GetIstorijaIznajmljivanja(id),
-                Rezervacije = _clan.GetRezervacije(id)
+                Rezervacije = _clan.GetRezervacije(id),
+                Telefon = clan.Telefon
             };
 
             return View(model);
